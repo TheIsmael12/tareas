@@ -14,44 +14,82 @@
     <?php
 
     // Definir los símbolos de los dados
-
+    
     $dados = [
         1 => "&#9856;",
         2 => "&#9857;",
         3 => "&#9858;",
         4 => "&#9859;",
         5 => "&#9860;",
-        6 => "&#9861;"  
+        6 => "&#9861;"
     ];
 
     // Inicialización de las variables
+    
     $jugador1 = 0;
     $jugador2 = 0;
 
     $jugador1Tiradas = [];
     $jugador2Tiradas = [];
 
+    $tiradaJ1Alta = 0;
+    $tiradaJ1Baja = 0;
+    $tiradaJ2Alta = 0;
+    $tiradaJ2Baja = 0;
+
     // Función que maneja el juego y devuelve las jugadas y el ganador
-    function jugarJuego(){
-        global $jugador1, $jugador2, $jugador1Tiradas, $jugador2Tiradas;
+    function jugarJuego()
+    {
+
+        global $jugador1, $jugador2, $jugador1Tiradas, $jugador2Tiradas, $tiradaJ1Alta, $tiradaJ1Baja, $tiradaJ2Alta, $tiradaJ2Baja;
 
         $posibilidades = [1, 2, 3, 4, 5, 6];
 
         // Jugada aleatoria para ambos jugadores
-
+    
         for ($i = 0; $i < 5; $i++) {
 
             $tiradaJ1 = $posibilidades[rand(0, 5)];
             $tiradaJ2 = $posibilidades[rand(0, 5)];
+
+            if($i == 0) {
+
+                $tiradaJ1Alta = $tiradaJ1;
+                $tiradaJ1Baja = $tiradaJ1;
+                $tiradaJ2Alta = $tiradaJ2;
+                $tiradaJ2Baja = $tiradaJ2;
+                
+            }
+
+            if ($tiradaJ1 > $tiradaJ1Alta) {
+                $tiradaJ1Alta = $tiradaJ1;
+            }
+            
+            if ($tiradaJ1 < $tiradaJ1Baja) {
+                $tiradaJ1Baja = $tiradaJ1;
+            }
+
+            if ($tiradaJ2 > $tiradaJ2Alta) {
+                $tiradaJ2Alta = $tiradaJ2;
+            }
+            
+            if ($tiradaJ2 < $tiradaJ2Baja) {
+                $tiradaJ2Baja = $tiradaJ2;
+            }
 
             $jugador1 += $tiradaJ1;
             $jugador2 += $tiradaJ2;
 
             $jugador1Tiradas[] = $tiradaJ1;
             $jugador2Tiradas[] = $tiradaJ2;
+
         }
 
+        $jugador1 = $jugador1 - ($tiradaJ1Alta + $tiradaJ1Baja);
+        $jugador2 = $jugador2 - ($tiradaJ2Alta + $tiradaJ2Baja);
+
         // Determinamos el ganador
+    
         if ($jugador1 == $jugador2) {
             $ganador = 0;
         } elseif ($jugador1 > $jugador2) {
@@ -64,7 +102,9 @@
     }
 
     // Función para mostrar el ganador
-    function mostrarGanador($ganador){
+    function mostrarGanador($ganador)
+    {
+
         if ($ganador == 1) {
             return 'Ha ganado Jugador 1';
         } elseif ($ganador == 2) {
@@ -72,16 +112,19 @@
         } else {
             return 'Empate';
         }
+
     }
 
     // Función para mostrar el icono correspondiente a las tiradas
-    function mostrarTiradas($jugador){
+    function mostrarTiradas($jugador)
+    {
+
         global $jugador1Tiradas, $jugador2Tiradas, $dados;
 
         $tiradas = ($jugador == 1) ? $jugador1Tiradas : $jugador2Tiradas;
 
         // Mostrar las tiradas
-
+    
         foreach ($tiradas as $tirada) {
             echo $dados[$tirada] . " ";
         }
@@ -100,7 +143,7 @@
         <div style='display: block; align-items: center; gap: 60px;'>
             <div style='text-align: center; display: flex; gap: 40px; align-items: center;'>
                 <h2>Jugador 1</h2>
-                <p style='font-size: 40px; background-color: red; padding: 10px;'>
+                <p style='font-size: 60px; background-color: red; padding: 10px;'>
                     <?php echo mostrarTiradas(1); ?>
                 </p>
                 <p>
@@ -109,7 +152,7 @@
             </div>
             <div style='text-align: center; display: flex; gap: 40px; align-items: center;'>
                 <h2>Jugador 2</h2>
-                <p style='font-size: 40px; background-color: blue; padding: 10px;'>
+                <p style='font-size: 60px; background-color: blue; padding: 10px;'>
                     <?php echo mostrarTiradas(2); ?>
                 </p>
                 <p>
