@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Solo aceptar archivos PNG de hasta 10 KB.
 
-        if ($tipoArchivo === 'image/png' && $tamañoArchivo <= 100240) {
+        if ($tipoArchivo === 'image/png' && $tamañoArchivo <= 10240) {
 
             // Mover el archivo a la carpeta uploads.
 
